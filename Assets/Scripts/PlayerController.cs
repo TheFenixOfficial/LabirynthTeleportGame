@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         PlayerMovement();
+        CheckGround();
     }
 
     private void PlayerMovement()
@@ -49,6 +50,14 @@ public class PlayerController : MonoBehaviour
                     speed = 20f;
                     break;
             }
+        }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.tag == "Pickup")
+        {
+            hit.gameObject.GetComponent<Pickup>().Picked();
         }
     }
 }

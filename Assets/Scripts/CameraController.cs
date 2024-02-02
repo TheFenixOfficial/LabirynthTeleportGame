@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         playerBody = transform.parent;
+
     }
 
     private void Update()
