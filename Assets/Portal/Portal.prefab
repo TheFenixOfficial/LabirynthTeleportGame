@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6543257565293073872}
   - component: {fileID: 9043781952309901549}
+  - component: {fileID: 5616526358737541536}
   m_Layer: 0
   m_Name: PortalCamera
   m_TagString: Untagged
@@ -65,7 +66,7 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 1
+  m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
@@ -74,6 +75,21 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &5616526358737541536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314291696222968868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60959aead0345264da3afda350641739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  portal: {fileID: 0}
+  otherPortal: {fileID: 0}
 --- !u!1 &2084043704284588857
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,8 +233,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f81f7c55d7787348821ba696b88d5ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portalCollider: {fileID: 0}
   otherPortal: {fileID: 0}
+  material: {fileID: 0}
+  portalCollider: {fileID: 0}
 --- !u!1 &3744145455548456022
 GameObject:
   m_ObjectHideFlags: 0
