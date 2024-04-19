@@ -15,6 +15,68 @@ public class GameManager : MonoBehaviour
     public bool gameEnded { get; private set; }
     public bool gameWon { get; private set; }
 
+    [SerializeField]
+    private AudioClip resumeClip;
+
+    [SerializeField]
+    private AudioClip pauseClip;
+
+    [SerializeField]
+    private AudioClip winClip;
+
+    [SerializeField]
+    private AudioClip loseClip;
+
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private MusicManager musicManager;
+
+    private bool lessTime = false;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
+
+    private void Start()
+    {
+        gameEnded = false;
+        gameWon = false;
+
+        if (timeToEnd <= 0)
+        {
+            timeToEnd = 180;
+        }
+
+        audioSource = GetComponent<AudioSource>();
+
+        InvokeRepeating(nameof(Stopper), 1, 1);
+    }
+
+    private void LessTimeOn()
+    {
+        musicManager.PitchThis(1.5f);
+    }
+
+    private void LessTimeOff()
+    {
+        musicManager.PitchThis(1f);
+    }
+
+    public void PlayClip(AudioClip playClip)
+    {
+        if (playClip == null)
+        {
+            return;
+        }
+        audioSource.clip = playClip;
+        audioSource.Play();
+    }
+
     public void AddKey(KeyColor keyColor)
     {
         keys[(int)keyColor]++;
@@ -38,26 +100,6 @@ public class GameManager : MonoBehaviour
         InvokeRepeating(nameof(Stopper), freezeFor, 1);
     }
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-    }
-
-    private void Start()
-    {
-        gameEnded = false;
-        gameWon = false;
-
-        if (timeToEnd <= 0)
-        {
-            timeToEnd = 180;
-        }
-        InvokeRepeating(nameof(Stopper), 1, 1);
-    }
-
     private void Update()
     {
         PauseCheck();
@@ -68,10 +110,12 @@ public class GameManager : MonoBehaviour
         CancelInvoke(nameof(Stopper));
         if (gameWon)
         {
+            PlayClip(winClip);
             Debug.Log("You won!");
         }
         else
         {
+            PlayClip(loseClip);
             Debug.Log("You lost!");
         }
     }
@@ -91,10 +135,22 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
+
+        if (timeToEnd <= 30 && !lessTime)
+        {
+            LessTimeOn();
+            lessTime = true;
+        }
+        else if (timeToEnd > 30 && lessTime)
+        {
+            LessTimeOff();
+            lessTime = false;
+        }
     }
 
     public void PauseGame()
     {
+        PlayClip(pauseClip);
         Debug.Log("Game Paused");
         Time.timeScale = 0;
         gamePaused = true;
@@ -102,6 +158,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        PlayClip(resumeClip);
         Debug.Log("Game Resumed");
         Time.timeScale = 1;
         gamePaused = false;
@@ -109,7 +166,7 @@ public class GameManager : MonoBehaviour
 
     private void PauseCheck()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             if (gamePaused)
             {
