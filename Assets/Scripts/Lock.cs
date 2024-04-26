@@ -43,8 +43,7 @@ public class Lock : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && canOpen && !locked)
         {
-            key.SetBool("useKey", CheckTheKey());
-            if (key.GetBool("useKey"))
+            if (CheckTheKey())
             {
                 UseKey();
             }
